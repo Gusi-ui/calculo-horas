@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Horas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Calculadora de Horas - Ayuda a Domicilio</h1>
+    <form id="calculator-form">
+        <label>Usuario:
+            <input type="text" id="user" required>
+        </label>
+        <label>Fecha inicio:
+            <input type="date" id="start-date" required>
+        </label>
+        <label>Fecha fin:
+            <input type="date" id="end-date" required>
+        </label>
+        <label>Horas por día:
+            <input type="number" id="hours-per-day" required min="1" max="24">
+        </label>
+        <label>
+            <input type="checkbox" id="include-holidays"> Incluir festivos
+        </label>
+        <button type="submit">Calcular</button>
+    </form>
+    <div id="result"></div>
+
+    <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
