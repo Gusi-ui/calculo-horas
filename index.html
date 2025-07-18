@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Calculadora de Horas</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora de Horas – Ayuda a Domicilio</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Calculadora de Horas - Ayuda a Domicilio</h1>
-    <form id="calculator-form">
-        <label>Usuario:
-            <input type="text" id="user" required>
-        </label>
-        <label>Fecha inicio:
-            <input type="date" id="start-date" required>
-        </label>
-        <label>Fecha fin:
-            <input type="date" id="end-date" required>
-        </label>
-        <label>Horas por día:
-            <input type="number" id="hours-per-day" required min="1" max="24">
-        </label>
-        <label>
-            <input type="checkbox" id="include-holidays"> Incluir festivos
-        </label>
-        <button type="submit">Calcular</button>
-    </form>
-    <div id="result"></div>
+  <main class="card">
+    <h1>Calculadora de Horas</h1>
 
-    <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
-    <script src="script.js"></script>
+    <form id="calculator-form">
+      <label class="field">
+        <span>Usuario</span>
+        <input type="text" id="user" placeholder="Ej. María López" required/>
+      </label>
+
+      <div class="row">
+        <label class="field">
+          <span>Fecha inicio</span>
+          <input type="date" id="start-date" required/>
+        </label>
+        <label class="field">
+          <span>Fecha fin</span>
+          <input type="date" id="end-date" required/>
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Horas diarias</span>
+        <input type="number" id="hours-per-day" min="1" max="24" placeholder="8" required/>
+      </label>
+
+      <label class="checkbox-field">
+        <input type="checkbox" id="include-holidays"/>
+        <span>Incluir festivos</span>
+      </label>
+
+      <button type="submit">Calcular</button>
+    </form>
+
+    <section id="result" class="result hidden"></section>
+  </main>
+
+  <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

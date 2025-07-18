@@ -1,0 +1,17 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Entornos virtuales
+venv/
+ENV/
+
+# Archivos temporales
+*.tmp
+*.swp
+
+# Node modules (por si se usa npm en el futuro)
+node_modules/ 
