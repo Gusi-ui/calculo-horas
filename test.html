@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Cálculo</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .result { margin: 20px 0; padding: 10px; background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h1>Test de Cálculo</h1>
+  <button onclick="testCalculo()">Probar Cálculo</button>
+  <div id="testResult" class="result"></div>
+
+  <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
+  <script>
+    function testCalculo() {
+      const year = 2024;
+      const month = 7; // Julio
+      const total = 86;
+      const t1 = 1.5;
+      const t2 = 2;
+      const incl = true;
+      const f1 = 1.5;
+      const f2 = 0;
+
+      const festivosMes = ["2024-01-01","2024-01-06","2024-03-29","2024-04-01","2024-05-01",
+        "2024-06-24","2024-08-15","2024-09-11","2024-10-12","2024-11-01",
+        "2024-12-06","2024-12-25","2024-12-26"];
+
+      let esperadas = 0;
+      let diasLaborables = 0;
+      let diasFestivos = 0;
+
+      const inicio = dayjs(`${year}-${String(month).padStart(2,'0')}-01`);
+      const fin = inicio.endOf('month');
+      const diasEnMes = fin.date();
+
+      console.log('Test - Días en el mes:', diasEnMes);
+      
+      for (let dia = 1; dia <= diasEnMes; dia++) {
+        const fechaActual = dayjs(`${year}-${String(month).padStart(2,'0')}-${String(dia).padStart(2,'0')}`);
+        const iso = fechaActual.format('YYYY-MM-DD');
+        const esFestivo = festivosMes.includes(iso);
+        const esFinSem = fechaActual.day() === 0 || fechaActual.day() === 6;
+
+        console.log(`Test - Día ${dia}: ${iso} - Festivo: ${esFestivo}, FinSem: ${esFinSem}`);
+
+        if (!incl && (esFestivo || esFinSem)) {
+          continue;
+        }
+
+        const horas = (esFestivo || esFinSem) ? (f1 + f2) : (t1 + t2);
+        esperadas += horas;
+        
+        if (esFestivo || esFinSem) {
+          diasFestivos++;
+        } else {
+          diasLaborables++;
+        }
+      }
+
+      const diff = total - esperadas;
+      const clase = diff >= 0 ? 'exceso' : 'déficit';
+
+      document.getElementById('testResult').innerHTML = `
+        <h3>Resultado del Test</h3>
+        <p>Horas que debería trabajar: <strong>${esperadas.toFixed(2)}</strong></p>
+        <p>Horas asignadas: <strong>${total}</strong></p>
+        <p>Diferencia: <strong style="color: ${diff >= 0 ? 'green' : 'red'}">${diff.toFixed(2)} h (${clase})</strong></p>
+        <p>Días laborables: ${diasLaborables} | Días festivos/fines de semana: ${diasFestivos}</p>
+      `;
+    }
+  </script>
+</body>
+</html> 

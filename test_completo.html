@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Completo de Cálculo</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .test-case { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+    .result { margin: 10px 0; padding: 10px; background: #f0f0f0; }
+    .success { background: #d4edda; border-color: #c3e6cb; }
+    .error { background: #f8d7da; border-color: #f5c6cb; }
+  </style>
+</head>
+<body>
+  <h1>Test Completo de Cálculo de Horas</h1>
+  <button onclick="ejecutarTests()">Ejecutar Todos los Tests</button>
+  <div id="resultados"></div>
+
+  <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
+  <script>
+    /* Festivos Mataró 2024-2025 */
+    const MATARO_FESTIVOS = {
+      2024:["2024-01-01","2024-01-06","2024-03-29","2024-04-01","2024-05-01",
+            "2024-06-24","2024-08-15","2024-09-11","2024-10-12","2024-11-01",
+            "2024-12-06","2024-12-25","2024-12-26"],
+      2025:["2025-01-01","2025-01-06","2025-04-18","2025-04-21","2025-05-01",
+            "2025-06-24","2025-07-28","2025-08-15","2025-09-11","2025-10-12",
+            "2025-11-01","2025-12-06","2025-12-25","2025-12-26"]
+    };
+
+    function calcularHoras(year, month, t1, t2, incl, f1, f2) {
+      const festivosMes = MATARO_FESTIVOS[year] || [];
+      let esperadas = 0;
+      let diasLaborables = 0;
+      let diasFestivos = 0;
+      let detalles = [];
+
+      const inicio = dayjs(`${year}-${String(month).padStart(2,'0')}-01`);
+      const fin = inicio.endOf('month');
+      const diasEnMes = fin.date();
+
+      for (let dia = 1; dia <= diasEnMes; dia++) {
+        const fechaActual = dayjs(`${year}-${String(month).padStart(2,'0')}-${String(dia).padStart(2,'0')}`);
+        const iso = fechaActual.format('YYYY-MM-DD');
+        const esFestivo = festivosMes.includes(iso);
+        const esFinSem = fechaActual.day() === 0 || fechaActual.day() === 6;
+        const diaSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][fechaActual.day()];
+
+        if (!incl && (esFestivo || esFinSem)) {
+          detalles.push(`${dia}/${month} (${diaSemana}): EXCLUIDO - ${esFestivo ? 'Festivo' : 'Fin de semana'}`);
+          continue;
+        }
+
+        const horas = (esFestivo || esFinSem) ? (f1 + f2) : (t1 + t2);
+        esperadas += horas;
+        
+        if (esFestivo || esFinSem) {
+          diasFestivos++;
+          detalles.push(`${dia}/${month} (${diaSemana}): ${horas}h - ${esFestivo ? 'FESTIVO' : 'FIN DE SEMANA'}`);
+        } else {
+          diasLaborables++;
+          detalles.push(`${dia}/${month} (${diaSemana}): ${horas}h - LABORABLE`);
+        }
+      }
+
+      return { esperadas, diasLaborables, diasFestivos, detalles };
+    }
+
+    function ejecutarTests() {
+      const resultados = document.getElementById('resultados');
+      resultados.innerHTML = '';
+
+      // Test 1: Enero 2024 (festivos: 1 y 6 de enero)
+      const test1 = calcularHoras(2024, 1, 1.5, 2, true, 1.5, 0);
+      agregarTest('Test 1: Enero 2024 (con festivos)', test1, {
+        esperadas: test1.esperadas,
+        diasLaborables: test1.diasLaborables,
+        diasFestivos: test1.diasFestivos,
+        festivosEsperados: 2 // 1 y 6 de enero
+      });
+
+      // Test 2: Julio 2024 (sin festivos, solo fines de semana)
+      const test2 = calcularHoras(2024, 7, 1.5, 2, true, 1.5, 0);
+      agregarTest('Test 2: Julio 2024 (sin festivos)', test2, {
+        esperadas: test2.esperadas,
+        diasLaborables: test2.diasLaborables,
+        diasFestivos: test2.diasFestivos,
+        festivosEsperados: 0
+      });
+
+      // Test 3: Diciembre 2024 (festivos: 6, 25, 26 de diciembre)
+      const test3 = calcularHoras(2024, 12, 1.5, 2, true, 1.5, 0);
+      agregarTest('Test 3: Diciembre 2024 (3 festivos)', test3, {
+        esperadas: test3.esperadas,
+        diasLaborables: test3.diasLaborables,
+        diasFestivos: test3.diasFestivos,
+        festivosEsperados: 3
+      });
+
+      // Test 4: Sin incluir festivos/fines de semana
+      const test4 = calcularHoras(2024, 1, 1.5, 2, false, 1.5, 0);
+      agregarTest('Test 4: Enero 2024 (sin festivos/fines)', test4, {
+        esperadas: test4.esperadas,
+        diasLaborables: test4.diasLaborables,
+        diasFestivos: test4.diasFestivos,
+        festivosEsperados: 0
+      });
+
+      // Test 5: Julio 2025 (festivo: 28 de julio)
+      const test5 = calcularHoras(2025, 7, 1.5, 2, true, 1.5, 0);
+      agregarTest('Test 5: Julio 2025 (1 festivo)', test5, {
+        esperadas: test5.esperadas,
+        diasLaborables: test5.diasLaborables,
+        diasFestivos: test5.diasFestivos,
+        festivosEsperados: 1
+      });
+    }
+
+    function agregarTest(titulo, resultado, esperado) {
+      const resultados = document.getElementById('resultados');
+      const testDiv = document.createElement('div');
+      testDiv.className = 'test-case';
+      
+      const esCorrecto = resultado.diasFestivos >= esperado.festivosEsperados;
+      if (esCorrecto) testDiv.classList.add('success');
+      else testDiv.classList.add('error');
+
+      testDiv.innerHTML = `
+        <h3>${titulo}</h3>
+        <div class="result">
+          <p><strong>Horas totales:</strong> ${resultado.esperadas.toFixed(2)}h</p>
+          <p><strong>Días laborables:</strong> ${resultado.diasLaborables}</p>
+          <p><strong>Días festivos/fines de semana:</strong> ${resultado.diasFestivos}</p>
+          <p><strong>Festivos esperados:</strong> ${esperado.festivosEsperados}</p>
+          <details>
+            <summary>Ver detalles día a día</summary>
+            <pre>${resultado.detalles.join('\n')}</pre>
+          </details>
+        </div>
+      `;
+
+      resultados.appendChild(testDiv);
+    }
+  </script>
+</body>
+</html> 

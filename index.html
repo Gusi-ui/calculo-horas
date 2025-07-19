@@ -3,48 +3,78 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculadora de Horas – Ayuda a Domicilio</title>
+  <title>Balance Mensual – Mataró</title>
   <link rel="stylesheet" href="styles.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <main class="card">
-    <h1>Calculadora de Horas</h1>
+    <h1>Balance Mensual – Mataró</h1>
 
-    <form id="calculator-form">
+    <form id="form">
       <label class="field">
-        <span>Usuario</span>
-        <input type="text" id="user" placeholder="Ej. María López" required/>
+        <span>Año</span>
+        <select id="year" required></select>
       </label>
 
-      <div class="row">
-        <label class="field">
-          <span>Fecha inicio</span>
-          <input type="date" id="start-date" required/>
-        </label>
-        <label class="field">
-          <span>Fecha fin</span>
-          <input type="date" id="end-date" required/>
-        </label>
-      </div>
+      <label class="field">
+        <span>Mes</span>
+        <select id="month" required>
+          <option value="1">Enero</option><option value="2">Febrero</option>
+          <option value="3">Marzo</option><option value="4">Abril</option>
+          <option value="5">Mayo</option><option value="6">Junio</option>
+          <option value="7" selected>Julio</option>
+          <option value="8">Agosto</option>
+          <option value="9">Septiembre</option><option value="10">Octubre</option>
+          <option value="11">Noviembre</option><option value="12">Diciembre</option>
+        </select>
+      </label>
 
       <label class="field">
-        <span>Horas diarias</span>
-        <input type="number" id="hours-per-day" min="1" max="24" placeholder="8" required/>
+        <span>Horas totales asignadas al mes</span>
+        <input type="number" id="total-hours" min="1" required value="86"/>
       </label>
+
+      <fieldset>
+        <legend>Horario diario laborable (L-V)</legend>
+        <label class="field">
+          <span>Tramo 1 (horas)</span>
+          <input type="number" step=".25" id="tramo1" min="0" required value="1.5"/>
+        </label>
+        <label class="field">
+          <span>Tramo 2 (horas)</span>
+          <input type="number" step=".25" id="tramo2" min="0" required value="2"/>
+        </label>
+      </fieldset>
 
       <label class="checkbox-field">
-        <input type="checkbox" id="include-holidays"/>
-        <span>Incluir festivos</span>
+        <input type="checkbox" id="incluyeFestivos" checked/>
+        <span>Incluir festivos y fines de semana</span>
       </label>
 
-      <button type="submit">Calcular</button>
+      <div id="horarioFestivo">
+        <fieldset>
+          <legend>Horario festivos / fines de semana</legend>
+          <label class="field">
+            <span>Tramo 1 (horas)</span>
+            <input type="number" step=".25" id="festivo1" min="0" value="1.5"/>
+          </label>
+          <label class="field">
+            <span>Tramo 2 (horas)</span>
+            <input type="number" step=".25" id="festivo2" min="0" value="0"/>
+          </label>
+        </fieldset>
+      </div>
+
+      <button type="submit">Calcular balance</button>
     </form>
 
-    <section id="result" class="result hidden"></section>
+    <section id="resultado" class="result hidden"></section>
   </main>
 
+  <!-- scripts al final para garantizar DOM cargado -->
   <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
+  <script src="https://unpkg.com/dayjs@1.11.10/locale/es.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

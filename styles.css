@@ -1,136 +1,27 @@
 :root {
-    --bg: #f5f7fa;
-    --card-bg: #ffffff;
-    --primary: #4f46e5;
-    --primary-dark: #3730a3;
-    --text: #1e293b;
-    --text-light: #64748b;
-    --error: #ef4444;
-    --radius: 12px;
-    --shadow: 0 10px 25px rgba(0,0,0,.06);
-    --font: "Inter", system-ui, sans-serif;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin: 0;
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-  
-  .card {
-    background: var(--card-bg);
-    max-width: 420px;
-    width: 100%;
-    padding: 32px 28px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    animation: fadeIn .4s ease-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0 0 24px;
-    text-align: center;
-  }
-  
-  .field {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 18px;
-  }
-  
-  .field span {
-    font-size: .875rem;
-    margin-bottom: 6px;
-    color: var(--text-light);
-  }
-  
-  input[type="text"],
-  input[type="date"],
-  input[type="number"] {
-    padding: 10px 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color .2s;
-  }
-  
-  input:focus {
-    outline: none;
-    border-color: var(--primary);
-  }
-  
-  .row {
-    display: flex;
-    gap: 12px;
-  }
-  
-  .row .field {
-    flex: 1 1 0;
-  }
-  
-  .checkbox-field {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 24px;
-    font-size: .9375rem;
-  }
-  
-  button {
-    width: 100%;
-    padding: 12px 0;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s;
-  }
-  
-  button:hover {
-    background: var(--primary-dark);
-  }
-  
-  .result {
-    margin-top: 28px;
-    padding: 20px;
-    background: #f0f5ff;
-    border-left: 4px solid var(--primary);
-    border-radius: 8px;
-  }
-  
-  .result h2 {
-    margin: 0 0 10px;
-    font-size: 1.125rem;
-  }
-  
-  .result p {
-    margin: 4px 0;
-    font-size: .9375rem;
-  }
-  
-  .hidden { display: none; }
-  
-  @media (max-width: 480px) {
-    .card { padding: 24px 20px; }
-    h1 { font-size: 1.35rem; }
-  }
+  --bg:#f5f7fa; --card:#fff; --primary:#4f46e5; --text:#1e293b; --text-light:#64748b;
+  --radius:12px; --shadow:0 10px 25px rgba(0,0,0,.06);
+  font-family: "Inter",system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;color:var(--text)}
+.card{background:var(--card);width:100%;max-width:480px;padding:32px 28px;border-radius:var(--radius);box-shadow:var(--shadow)}
+h1{font-size:1.5rem;text-align:center;margin:0 0 24px;font-weight:600}
+.field{display:flex;flex-direction:column;margin-bottom:18px}
+.field span{font-size:.875rem;margin-bottom:6px;color:var(--text-light)}
+input,select{padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:1rem}
+input:focus,select:focus{border-color:var(--primary);outline:none}
+fieldset{border:1px solid #e2e8f0;border-radius:8px;margin-bottom:18px;padding:12px 16px}
+legend{font-size:.875rem;color:var(--text-light)}
+.checkbox-field{display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:.9375rem}
+button{width:100%;padding:12px 0;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer}
+button:hover{background:#3730a3}
+.result{margin-top:24px;padding:20px;background:#f0f5ff;border-left:4px solid var(--primary);border-radius:8px}
+.hidden{display:none}
+
+/* Estilos para los resultados */
+.result h2{margin:0 0 16px;font-size:1.25rem;color:var(--text)}
+.result p{margin:0 0 8px;font-size:.9375rem}
+.result strong{color:var(--text)}
+.exceso{color:#059669 !important}
+.déficit{color:#dc2626 !important}
