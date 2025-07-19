@@ -14,4 +14,9 @@ ENV/
 *.swp
 
 # Node modules (por si se usa npm en el futuro)
-node_modules/ 
+node_modules/
+
+# Archivos de test (solo para desarrollo)
+test.html
+test_completo.html
+test_festivos.html 

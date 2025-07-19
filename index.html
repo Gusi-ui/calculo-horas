@@ -3,76 +3,175 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Balance Mensual – Mataró</title>
+  <meta name="description" content="Calculadora de balance mensual de horas para Mataró. Calcula automáticamente las horas esperadas considerando festivos y fines de semana."/>
+  <meta name="keywords" content="calculadora, horas, mataró, festivos, balance mensual"/>
+  <title>Calculadora de Balance Mensual - Mataró</title>
   <link rel="stylesheet" href="styles.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏰</text></svg>">
 </head>
 <body>
   <main class="card">
-    <h1>Balance Mensual – Mataró</h1>
+    <header>
+      <h1>⏰ Calculadora de Balance Mensual</h1>
+      <p>Mataró</p>
+    </header>
 
-    <form id="form">
-      <label class="field">
-        <span>Año</span>
-        <select id="year" required></select>
-      </label>
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="year">
+          <span>📅 Año</span>
+          <select id="year" required aria-describedby="year-help">
+            <option value="">Selecciona un año</option>
+          </select>
+        </label>
+        <small id="year-help" class="help-text">Año para el cual calcular el balance</small>
+      </div>
 
-      <label class="field">
-        <span>Mes</span>
-        <select id="month" required>
-          <option value="1">Enero</option><option value="2">Febrero</option>
-          <option value="3">Marzo</option><option value="4">Abril</option>
-          <option value="5">Mayo</option><option value="6">Junio</option>
-          <option value="7" selected>Julio</option>
-          <option value="8">Agosto</option>
-          <option value="9">Septiembre</option><option value="10">Octubre</option>
-          <option value="11">Noviembre</option><option value="12">Diciembre</option>
-        </select>
-      </label>
+      <div class="field">
+        <label for="month">
+          <span>📆 Mes</span>
+          <select id="month" required aria-describedby="month-help">
+            <option value="">Selecciona un mes</option>
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7" selected>Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+        </label>
+        <small id="month-help" class="help-text">Mes para el cual calcular el balance</small>
+      </div>
 
-      <label class="field">
-        <span>Horas totales asignadas al mes</span>
-        <input type="number" id="total-hours" min="1" required value="86"/>
-      </label>
+      <div class="field">
+        <label for="total-hours">
+          <span>🎯 Horas totales asignadas al mes</span>
+          <input 
+            type="number" 
+            id="total-hours" 
+            min="1" 
+            step="0.25"
+            required 
+            placeholder="Ej: 86"
+            aria-describedby="total-hours-help"
+          />
+        </label>
+        <small id="total-hours-help" class="help-text">Total de horas asignadas para el mes</small>
+      </div>
 
       <fieldset>
-        <legend>Horario diario laborable (L-V)</legend>
-        <label class="field">
-          <span>Tramo 1 (horas)</span>
-          <input type="number" step=".25" id="tramo1" min="0" required value="1.5"/>
-        </label>
-        <label class="field">
-          <span>Tramo 2 (horas)</span>
-          <input type="number" step=".25" id="tramo2" min="0" required value="2"/>
-        </label>
+        <legend>💼 Horario diario laborable (Lunes a Viernes)</legend>
+        
+        <div class="field">
+          <label for="tramo1">
+            <span>🌅 Tramo 1 (horas)</span>
+            <input 
+              type="number" 
+              step="0.25" 
+              id="tramo1" 
+              min="0" 
+              required 
+              value="0"
+              placeholder="Ej: 1.5"
+              aria-describedby="tramo1-help"
+            />
+          </label>
+          <small id="tramo1-help" class="help-text">Horas del primer tramo laborable</small>
+        </div>
+        
+        <div class="field">
+          <label for="tramo2">
+            <span>🌆 Tramo 2 (horas)</span>
+            <input 
+              type="number" 
+              step="0.25" 
+              id="tramo2" 
+              min="0" 
+              required 
+              value="0"
+              placeholder="Ej: 2"
+              aria-describedby="tramo2-help"
+            />
+          </label>
+          <small id="tramo2-help" class="help-text">Horas del segundo tramo laborable</small>
+        </div>
       </fieldset>
 
-      <label class="checkbox-field">
-        <input type="checkbox" id="incluyeFestivos" checked/>
-        <span>Incluir festivos y fines de semana</span>
-      </label>
+      <div class="checkbox-field">
+        <input 
+          type="checkbox" 
+          id="incluyeFestivos" 
+          aria-describedby="incluyeFestivos-help"
+        />
+        <label for="incluyeFestivos">🎉 Incluir festivos y fines de semana</label>
+        <small id="incluyeFestivos-help" class="help-text">Marcar para incluir festivos y fines de semana en el cálculo</small>
+      </div>
 
       <div id="horarioFestivo">
         <fieldset>
-          <legend>Horario festivos / fines de semana</legend>
-          <label class="field">
-            <span>Tramo 1 (horas)</span>
-            <input type="number" step=".25" id="festivo1" min="0" value="1.5"/>
-          </label>
-          <label class="field">
-            <span>Tramo 2 (horas)</span>
-            <input type="number" step=".25" id="festivo2" min="0" value="0"/>
-          </label>
+          <legend>🎊 Horario festivos / fines de semana</legend>
+          
+          <div class="field">
+            <label for="festivo1">
+              <span>🌅 Tramo 1 (horas)</span>
+              <input 
+                type="number" 
+                step="0.25" 
+                id="festivo1" 
+                min="0" 
+                value="0"
+                placeholder="Ej: 1.5"
+                aria-describedby="festivo1-help"
+              />
+            </label>
+            <small id="festivo1-help" class="help-text">Horas del primer tramo en festivos/fines de semana</small>
+          </div>
+          
+          <div class="field">
+            <label for="festivo2">
+              <span>🌆 Tramo 2 (horas)</span>
+              <input 
+                type="number" 
+                step="0.25" 
+                id="festivo2" 
+                min="0" 
+                value="0"
+                placeholder="Ej: 0"
+                aria-describedby="festivo2-help"
+              />
+            </label>
+            <small id="festivo2-help" class="help-text">Horas del segundo tramo en festivos/fines de semana</small>
+          </div>
         </fieldset>
       </div>
 
-      <button type="submit">Calcular balance</button>
+      <button type="submit" aria-describedby="submit-help">
+        🧮 Calcular balance
+      </button>
+      <small id="submit-help" class="help-text">Haz clic para calcular el balance de horas del mes</small>
     </form>
 
-    <section id="resultado" class="result hidden"></section>
+    <section id="resultado" class="result hidden" aria-live="polite" aria-atomic="true">
+      <!-- Los resultados se insertarán aquí dinámicamente -->
+    </section>
+
+    <footer>
+      <p>
+        <small>
+          Hecho con mucho ❤️ por gusi
+        </small>
+      </p>
+    </footer>
   </main>
 
-  <!-- scripts al final para garantizar DOM cargado -->
+  <!-- Scripts -->
   <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
   <script src="https://unpkg.com/dayjs@1.11.10/locale/es.js"></script>
   <script src="script.js"></script>
